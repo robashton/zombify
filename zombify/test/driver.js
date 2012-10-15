@@ -12,14 +12,25 @@ var Driver = function(dir, options) {
 Driver.prototype = {
   start: function(cb) {
     this.process = spawn('xsp2', [ '--port', this.options.port], {
-      cwd: this.dir
+      cwd: this.dir,
+      stdio: [ 'ipc' ]
     })
     this.process.stdout.setEncoding('utf8')
     this.process.stdout.on('data', this.onStdOut.bind(this))
     this.process.stderr.setEncoding('utf8')
     this.process.stderr.on('data', this.onStdErr.bind(this))
     this.process.on('exit', this.onExit.bind(this))
+    this.process.on('message', this.onMessage.bind(this))
+    this.methods = []
     this.waitForConnection(cb)
+  },
+  invoke: function(method, data, cb) {
+    this.methods.push(cb)
+    this.process.send({
+      method: method,
+      data: data,
+      id: this.methods.length-1
+    })
   },
   waitForConnection: function(cb) {
     var self = this
@@ -28,6 +39,14 @@ Driver.prototype = {
     }).on('error', function() {
       self.waitForConnection(cb)
     })
+  },
+  onMessage: function(msg) {
+    var id = msg.id
+    var cb = this.messages[id]
+    if(cb) {
+      delete this.messages[id]
+      cb()
+    }
   },
   onStdOut: function(data) {
 //    console.log(data)
