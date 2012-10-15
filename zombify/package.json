@@ -1,0 +1,8 @@
+{
+  "name": "zombify",
+  "version": "1.0.0",
+  "dependencies": {
+    "zombie" : "",
+    "should": ""
+  }
+}
