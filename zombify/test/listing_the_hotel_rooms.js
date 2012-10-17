@@ -13,8 +13,8 @@ describe("Listing the hotel rooms", function() {
 
   describe("With a single hotel room", function() {
     before(function(done) {
-      driver.invoke('addHotelRoom', {
-        id: '1',
+      driver.invoke('InMemoryHotel.AddHotelRoom', {
+        id: '200',
         number: '101'
       }, done)
     })
@@ -26,13 +26,13 @@ describe("Listing the hotel rooms", function() {
       })
 
       it("should have the hotel with the correct number", function() {
-        client.querySelector('.hotel .number').text()
+        client.querySelector('.hotel .number').textContent
           .should.equal('101')
       })
 
       it("should have a link to manage the hotel room", function() {
         client.querySelector('.hotel a').getAttribute('href')
-          .should.contain('101')
+          .should.include('200')
       })
     })
   })

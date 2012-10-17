@@ -25,15 +25,20 @@ Driver.prototype = {
   invoke: function(method, params, cb) {
     var qs = querystring.stringify({
       method: method,
-      params: params
+      params: JSON.stringify(params)
     })
     var req = http.request({
       host: 'localhost',
       port: 9000,
       method: 'GET',
-      path: '/' + qs
+      path: '/?' + qs
     }, function(res) {
-      cb()
+      if(res.statusCode === 200)
+        return cb()
+      res.setEncoding('utf8')
+      res.on('data', function(data) {
+        console.error(data)
+      })
     })
 
     req.on('error', function(err) {

@@ -9,8 +9,13 @@ namespace Hotelier
 {
 	public class HomeController : Controller
 	{
+		IContainRooms rooms;
+		
+		public HomeController(IContainRooms rooms) {
+			this.rooms = rooms;
+		}
 		public ActionResult Index() {
-			return this.View();
+			return this.View(rooms.FindAllRooms());
 		}
 	}
 }
