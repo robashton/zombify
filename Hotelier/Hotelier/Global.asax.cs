@@ -9,6 +9,8 @@ namespace Hotelier
 {
 	public class MvcApplication : System.Web.HttpApplication
 	{
+		private TestListener listener = new TestListener();
+		
 		public static void RegisterRoutes (RouteCollection routes)
 		{
 			routes.IgnoreRoute ("{resource}.axd/{*pathInfo}");
@@ -24,6 +26,7 @@ namespace Hotelier
 		protected void Application_Start ()
 		{
 			RegisterRoutes (RouteTable.Routes);
+			listener.Start();
 		}
 	}
 }

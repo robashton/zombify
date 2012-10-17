@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using System.Web;
 
 namespace Hotelier
 {
@@ -7,21 +8,33 @@ namespace Hotelier
 	{
 		private HttpListener listener;
 		
-		public TestListener ()
+		public TestListener()
 		{
-			listener = new HttpListener();
-			listener.BeginGetContext(this.onStartRequest);
-			listener.EndGetContext(this.onEndRequest);
+			listener = new HttpListener();		
+			listener.Prefixes.Add ("http://localhost:9000/");
 		}
-
-		public void onStartRequest (object onStartRequest)
+		
+		public void Start() 
 		{
-			throw new NotImplementedException ();
+			listener.Start ();		
+			listener.BeginGetContext(onBeginGetContext, listener);
 		}
-
-		public void onEndRequest (object onEndRequest)
+		
+		private void onBeginGetContext (IAsyncResult result)
 		{
-			throw new NotImplementedException ();
+			var context = this.listener.EndGetContext(result);
+			var request = context.Request;
+			var response = context.Response;
+		 	HandleRequest(request);
+		    response.StatusCode = 200;
+			using(var stream = response.OutputStream){}
+			this.listener.BeginGetContext(onBeginGetContext, this.listener);
+		}
+		
+		private void HandleRequest(HttpWebRequest request) {
+			var qs = HttpUtility.ParseQueryString(request.RequestUri.Query);
+			var method = qs.Get("method");
+			var data = qs.Get("data");
 		}
 	}
 }
