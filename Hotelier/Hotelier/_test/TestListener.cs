@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Hotelier
 {
@@ -53,14 +54,19 @@ namespace Hotelier
 		private void HandleRequest(HttpListenerRequest request) {
 			var qs = request.QueryString;
 			var methodInfoString = qs.Get("method");
+			throw new Exception("Erm" + qs.GetKey(1) + String.Join (" , ", qs.GetValues(1)));
 			var data =  JObject.Parse(qs.Get("params"));
 			
-			
+			/*
 			var methodInfoComponents = methodInfoString.Split ('.');
 			var type = methodInfoComponents[0];
 			var methodName = methodInfoComponents[1];
 			var handler = handlers[type];
-			var method = handler.GetType().GetMethod (methodName);
+			var method = handler.GetType().GetMethods()
+								.Where (x=> x.Name == methodName)
+								.Where(x => x.GetParameters().Length == data.Children().Count())
+								.FirstOrDefault();
+			
 			
 			var args = new List<object>();
 
@@ -70,7 +76,7 @@ namespace Hotelier
 				args.Add (obj);
 			}
 			method.Invoke (handler, args.ToArray());
-			
+			*/
 		}
 	}
 }

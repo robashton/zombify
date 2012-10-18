@@ -25,7 +25,7 @@ Driver.prototype = {
   invoke: function(method, params, cb) {
     var qs = querystring.stringify({
       method: method,
-      params: JSON.stringify(params)
+      params: params
     })
     var req = http.request({
       host: 'localhost',
