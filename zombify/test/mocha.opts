@@ -1,0 +1,7 @@
+--require should
+--require mocha-cakes
+--reporter spec
+--compilers coffee:coffee-script
+--recursive
+--globals attr
+-t 5000

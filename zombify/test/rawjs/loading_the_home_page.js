@@ -1,6 +1,6 @@
 var Browser = require('zombie')
 var should = require('should')
-var Driver = require('./driver')
+var Driver = require('../driver')
 
 describe("the running of the web server", function() {
   var driver = new Driver('../Hotelier/Hotelier/')

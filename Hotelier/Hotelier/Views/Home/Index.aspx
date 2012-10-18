@@ -6,7 +6,7 @@
 <body>
 	<div>
 		<% foreach(var hotel in Model) { %>
-			<div class="hotel">
+			<div class="hotel" id='hotel-<%= hotel.Id %>'>
 				<p class="number"><%= hotel.Number %></p>
 				<a href="<%= String.Format("/room/{0}", hotel.Id) %>">View</a>
 			</div>
