@@ -6,9 +6,12 @@ describe("Listing the hotel rooms", function() {
   var driver = new Driver('../Hotelier/Hotelier')
     , client = null
 
-
   before(function(done) {
     driver.start(done)
+  })
+
+  after(function(done) {
+    driver.stop(done)
   })
 
   describe("With a single hotel room", function() {
@@ -23,9 +26,6 @@ describe("Listing the hotel rooms", function() {
       before(function(done) {
         client = new Browser()
         client.visit(driver.baseHref, done)
-      })
-      after(function(done) {
-        driver.stop(done)
       })
 
       it("should have the hotel with the correct number", function() {

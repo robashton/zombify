@@ -19,5 +19,9 @@ namespace Hotelier
 			return View (rooms.GetRoomById(id));
 		}
 	}
+	
+ 	public class RoomIndexInput {
+		public string Id { get; set; }
+	}
 }
 

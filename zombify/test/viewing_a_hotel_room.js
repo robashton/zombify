@@ -24,8 +24,8 @@ describe("Viewing a hotel room", function() {
 
     describe("Viewing the room's page", function(done) {
       before(function(done) {
-        client = new Browser({debug: true})
-        client.visit(driver.baseHref + '/Room?id=200', handleVisit(client, done))
+        client = new Browser()
+        client.visit(driver.baseHref + '/Room/Index/200', handleVisit(client, done))
       })
 
       it('Should have the hotel room number as the header', function() {
@@ -45,7 +45,9 @@ describe("Viewing a hotel room", function() {
 function handleVisit(client, cb) {
   return function() {
     if(client.statusCode !== 200) {
-      console.log(client.html())
+      var message = client.querySelector('h1').textContent
+      var stacktrace = client.querySelector('tbody pre').textContent
+      console.error(message, stacktrace)
     }
     cb()
   }

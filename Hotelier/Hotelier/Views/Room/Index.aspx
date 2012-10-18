@@ -6,6 +6,6 @@
 <body>
 	<h1><%= Model.Number %></h1>		
 	<div>
-		
+		<p>Persons: <span class="capacity"><%= Model.Capacity %></span></p>
 	</div>
 </body>
