@@ -25,7 +25,7 @@ Driver.prototype = {
   invoke: function(method, params, cb) {
     var qs = querystring.stringify({
       method: method,
-      params: params
+      params: JSON.stringify(params)
     })
     var req = http.request({
       host: 'localhost',
@@ -63,7 +63,7 @@ Driver.prototype = {
   onExit: function(code) {
   //  console.log(code)
   },
-  stop: function(err, cb) {
+  stop: function(cb) {
     this.process.kill()
     cb()
   }

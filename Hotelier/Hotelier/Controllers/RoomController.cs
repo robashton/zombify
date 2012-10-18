@@ -7,16 +7,16 @@ using System.Web.Mvc.Ajax;
 
 namespace Hotelier
 {
-	public class HomeController : Controller
+	public class RoomController : Controller
 	{
 		IContainRooms rooms;
 		
-		public HomeController(IContainRooms rooms) {
+		public RoomController(IContainRooms rooms) {
 			this.rooms = rooms;
 		}
 		
-		public ActionResult Index() {
-			return this.View(rooms.FindAllRooms());
+		public ActionResult Index(string id) {
+			return View (rooms.GetRoomById(id));
 		}
 	}
 }

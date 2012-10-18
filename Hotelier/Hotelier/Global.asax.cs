@@ -53,6 +53,12 @@ namespace Hotelier
 				.ImplementedBy<HomeController>()
 				.Named ("homecontroller")
 				.LifestyleTransient());
+			
+			container.Register (
+				Component.For <IController>()
+				.ImplementedBy<RoomController>()
+				.Named ("roomcontroller")
+				.LifestyleTransient());
 	
 			container.Register(
 				Component.For<IContainRooms>()
