@@ -10,8 +10,10 @@ Scenario "Viewing hotel list with a booked room", ->
         id: 100
         number: 101
         capacity: 2
-        booked: true
-      }, -> done
+      }, ->
+        system.create_booking {
+          roomid: 100
+        }, done
 
   When "The user visits the hotel list", (done) ->
     client.visit_hotel_list done

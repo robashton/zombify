@@ -81,6 +81,8 @@
     <Compile Include="Domain\Room.cs" />
     <Compile Include="Infra\WindsorControllerFactory.cs" />
     <Compile Include="Controllers\RoomController.cs" />
+    <Compile Include="Domain\Booking.cs" />
+    <Compile Include="Domain\IRegisterBookings.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />

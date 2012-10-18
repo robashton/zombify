@@ -1,13 +1,13 @@
 Browser = require('zombie')
 
 class Client
-  @browser = new Browser()
 
   constructor: (base) ->
     @base = base
+    @browser = new Browser()
 
   visit_hotel_list: (done) =>
-    browser.visit @base, @handleVisit(done)
+    @browser.visit @base, @handle_visit(done)
 
   hotel_room_is_booked: (id) =>
     hotel = @browser.querySelector '#hotel-' + id
@@ -21,3 +21,4 @@ class Client
         console.error(message, stacktrace)
       cb()
 
+module.exports = Client

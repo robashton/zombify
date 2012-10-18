@@ -61,8 +61,10 @@ namespace Hotelier
 				.LifestyleTransient());
 	
 			container.Register(
-				Component.For<IContainRooms>()
-				.ImplementedBy<InMemoryHotel>());
+				Component.For<IContainRooms, IRegisterBookings>()
+				.ImplementedBy<InMemoryHotel>()
+				);
+			
 		}
 	}
 }

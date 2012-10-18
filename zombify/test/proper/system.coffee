@@ -2,7 +2,8 @@ Driver = require '../driver'
 Client = require './client'
 
 class System
-  @driver = new Driver '../Hotelier/Hotelier'
+  constructor: ->
+    @driver = new Driver '../Hotelier/Hotelier'
 
   start: (done) =>
     @driver.start done
@@ -10,9 +11,14 @@ class System
   stop: (done) =>
     @driver.stop done
 
-  add_hotel_room: (done) =>
+  add_hotel_room: (data, done) =>
     @driver.invoke 'InMemoryHotel.AddHotelRoom', data, done
+
+  create_booking: (data, done) =>
+    @driver.invoke 'InMemoryHotel.CreateBooking', data, done
 
   add_client: =>
     new Client(@driver.baseHref)
     
+
+module.exports = System
