@@ -24,6 +24,9 @@ describe("Listing the hotel rooms", function() {
         client = new Browser()
         client.visit(driver.baseHref, done)
       })
+      after(function(done) {
+        driver.stop(done)
+      })
 
       it("should have the hotel with the correct number", function() {
         client.querySelector('.hotel .number').textContent
