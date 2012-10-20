@@ -24,8 +24,6 @@ NuGet Package Thinking
   -   <Read results>
   -   <Spit out errors with error code>
 
-  - node.exe isn't that big...
-
 - The (optional) server package contains
   - a DLL for enabling IPC (maybe I can inject this by being really clever if
     I am hosting XSP within my own runner?
