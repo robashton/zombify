@@ -23,6 +23,7 @@ NuGet Package Thinking
   -   <Run Node>
   -   <Read results>
   -   <Spit out errors with error code>
+    - Apparently possible with MSBuild, but means running as part of build?
 
 - The (optional) server package contains
   - a DLL for enabling IPC (maybe I can inject this by being really clever if
