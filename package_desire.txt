@@ -1,0 +1,25 @@
+NuGet Package Thinking
+=======================
+
+- The core zombify test runner has
+  - a pre-built node package - including node.exe and zombie with contextify built
+  - a pre-built XSP package
+  - some javascript as a base test context
+
+  - This means we could use Jasmine, which is supported by R#
+
+- An additional package would
+  - Bundle a default mocha.opts
+  - Add some more node_modules (mocha, mocha-cakes, coffeescript)
+  - a base 'System' class
+  - a base 'Client' class
+  - code packages for mixing in functionality specific test helpers on the client
+
+  - Mocha isn't supported by the IDE at the moment :'(
+  - Could hook it into R#?
+
+  - node.exe isn't that big...
+
+- The (optional) server package contains
+  - a DLL for enabling IPC (maybe I can inject this by being really clever if
+    I am hosting XSP within my own runner?
