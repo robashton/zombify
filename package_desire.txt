@@ -24,6 +24,9 @@ NuGet Package Thinking
   -   <Read results>
   -   <Spit out errors with error code>
     - Apparently possible with MSBuild, but means running as part of build?
+    - Does this matter? It's not like Selenium tests are part of the normal workflow
+    - Could just make a VS Extension
+      - This is the road to hell
 
 - The (optional) server package contains
   - a DLL for enabling IPC (maybe I can inject this by being really clever if
