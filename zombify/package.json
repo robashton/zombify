@@ -4,6 +4,7 @@
   "dependencies": {
     "zombie": "",
     "should": "",
-    "mocha-cakes": "~0.9.0"
+    "mocha-cakes": "~0.9.0",
+    "mocha" : ""
   }
 }

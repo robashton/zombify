@@ -7,6 +7,7 @@ NuGet Package Thinking
   - some javascript as a base test context
 
   - This means we could use Jasmine, which is supported by R#
+    - But this is still geared towards client-side testing
 
 - An additional package would
   - Bundle a default mocha.opts
@@ -17,6 +18,11 @@ NuGet Package Thinking
 
   - Mocha isn't supported by the IDE at the moment :'(
   - Could hook it into R#?
+  - Could I just mostify the project file to dump out errors???
+  - <Import Task>
+  -   <Run Node>
+  -   <Read results>
+  -   <Spit out errors with error code>
 
   - node.exe isn't that big...
 
