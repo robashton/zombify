@@ -64,5 +64,5 @@ packages/
 *.testsettings
 
 # Zombify dev stuff
-zombify/node_modules/
+src/zombify/node_modules/
 *.swp
