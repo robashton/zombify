@@ -1,0 +1,11 @@
+{
+  "name": "zombify",
+  "main": "./driver",
+  "version": "0.0.1",
+  "dependencies": {
+    "zombie": "",
+    "should": "",
+    "mocha-cakes": "",
+    "mocha" : ""
+  }
+}
