@@ -2,10 +2,11 @@ using System;
 using Castle.MicroKernel;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.SessionState;
 
 namespace Hotelier
 {
-  	public class WindsorControllerFactory : IControllerFactory
+    public class WindsorControllerFactory : IControllerFactory
     {
         private readonly IKernel _kernel;
 
@@ -18,6 +19,11 @@ namespace Hotelier
         {
             return _kernel.Resolve<IController>(controllerName.ToLowerInvariant() + "controller");
         }
+
+  	    public SessionStateBehavior GetControllerSessionBehavior(RequestContext requestContext, string controllerName)
+  	    {
+  	        return SessionStateBehavior.Disabled;
+  	    }
 
         public void ReleaseController(IController controller)
         {
