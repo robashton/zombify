@@ -34,7 +34,7 @@ namespace Zombify.Server
 		}
 	}
 
-  public class Server
+  public class Server : MarshalByRefObject
   {
     public int Run() {
       var port = Int32.Parse(System.Environment.GetEnvironmentVariable("PORT"));
@@ -47,6 +47,11 @@ namespace Zombify.Server
 			server.AppHost = vh.AppHost;
 		  if (server.Start (true, null, 500) == false)
         return 2;
+
+      var otherServerLol = (Server)server.AppHost.Domain.CreateInstanceFromAndUnwrap( 
+         GetType().Assembly.Location, GetType().FullName);
+      server.AppHost.Domain.AssemblyResolve += new ResolveEventHandler(otherServerLol.ResolveAssembly);
+      AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(this.ResolveAssembly);
 
       bool doSleep;
       while (true) {
@@ -61,13 +66,19 @@ namespace Zombify.Server
         } catch (ThreadAbortException) {
           doSleep = true;
         }
-
-        if (doSleep)
+        if (doSleep) {
           Thread.Sleep (500);
+        }
       }
+
       server.Stop ();
   
       return 1337;
+    }
+
+    private Assembly ResolveAssembly(object sender, ResolveEventArgs e) {
+      Console.WriteLine(Assembly.GetExecutingAssembly().ToString());
+      return null;
     }
   }
 }
