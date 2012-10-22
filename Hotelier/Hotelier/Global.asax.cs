@@ -1,17 +1,25 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Web.Mvc;
 using System.Web.Routing;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 
 namespace Hotelier
 {
-    // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
-    // visit http://go.microsoft.com/?LinkId=9394801
-
     public class MvcApplication : System.Web.HttpApplication
     {
-        private TestListener listener = new TestListener();
-        private WindsorContainer container = new WindsorContainer();
+        private static WindsorContainer container = new WindsorContainer();
+
+        public static IEnumerable<object> RetrieveZombieHandlers()
+        {
+            yield return container.Resolve<IContainRooms>();
+        }
+
+        public MvcApplication()
+        {
+            Console.WriteLine("Constructing MvcApplication");
+        }
 
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
@@ -32,27 +40,18 @@ namespace Hotelier
 
         protected void Application_Start()
         {
+            Console.WriteLine("Application started");
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
             RegisterComponents();
-            RegisterTestHooks();
             ControllerBuilder.Current.SetControllerFactory(container.Resolve<IControllerFactory>());
-            listener.Start();
         }
 
-        private void RegisterTestHooks()
-        {
-            var hotel = container.Resolve<IContainRooms>();
-
-            // This is now an IPC object
-            listener.RegisterHandler(hotel);
-        }
 
         private void RegisterComponents()
         {
-
             container.Register(
                 Component.For<IControllerFactory>()
                 .ImplementedBy<WindsorControllerFactory>());

@@ -8,12 +8,7 @@ using System.Reflection;
 using System.Threading;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-
 using Mono.WebServer;
 
 namespace Zombify.Server
@@ -36,152 +31,76 @@ namespace Zombify.Server
 		public static int Main (string[] args)
 		{
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler (CurrentDomain_UnhandledException);
-      var server = new Server();
-      return server.Run();
+            var server = new Server();
+            return server.Run();
 		}
 	}
   
   public class Server : MarshalByRefObject
   {
-    public int Run() {
-      var port = Int32.Parse(System.Environment.GetEnvironmentVariable("PORT"));
-      var dir = System.Environment.GetEnvironmentVariable("ROOT");
-      var webSource = new XSPWebSource (IPAddress.Parse("0.0.0.0"), port, false);
+      private string dir;
+      private int port;
 
-			ApplicationServer server = new ApplicationServer (webSource, dir);
-      server.SingleApplication = true;
-      server.AddApplicationsFromCommandLine ("/:.");
-			VPathToHost vh = server.GetSingleApp ();
-			vh.CreateHost (server, webSource);
-			server.AppHost = vh.AppHost;
-		  if (server.Start (true, null, 500) == false)
-        return 2;
-
-      var listener = (TestListener)vh.AppHost.Domain.CreateInstanceFromAndUnwrap(
-          GetType().Assembly.Location,
-          typeof(TestListener).FullName);
-      listener.Start(9000);
-
-      bool doSleep;
-      while (true) {
-        doSleep = false;
-        try {
-          Console.ReadLine ();
-          break;
-        } catch (IOException) {
-          // This might happen on appdomain unload
-          // until the previous threads are terminated.
-          doSleep = true;
-        } catch (ThreadAbortException) {
-          doSleep = true;
-        }
-        if (doSleep) {
-          Thread.Sleep (500);
-        }
+      public void CopyBinariesToBin()
+      {
+          var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+          var destpath = Path.Combine(dir, "bin");
+          try
+          {
+              File.Copy(Path.Combine(path, "Zombify.Server.exe"), Path.Combine(destpath, "Zombify.Server.exe"), true);
+              File.Copy(Path.Combine(path, "Mono.WebServer.dll"), Path.Combine(destpath, "Mono.WebServer.exe"), true);
+              File.Copy(Path.Combine(path, "Mono.Security.dll"), Path.Combine(destpath, "Mono.Security.dll"), true);
+          } catch (Exception ex)
+          {
+              Console.WriteLine(ex.ToString());
+          }
       }
+      public int Run()
+      {
+          port = Int32.Parse(System.Environment.GetEnvironmentVariable("PORT"));
+          dir = System.Environment.GetEnvironmentVariable("ROOT");
+          CopyBinariesToBin();
+          var webSource = new XSPWebSource(IPAddress.Parse("0.0.0.0"), port, false);
 
-      server.Stop ();
-  
-      return 1337;
-    }
-  }
+          var server = new ApplicationServer(webSource, dir);
+          server.SingleApplication = true;
+          server.AddApplicationsFromCommandLine("/:.");
+          var vh = server.GetSingleApp();
+          vh.CreateHost(server, webSource);
+          server.AppHost = vh.AppHost;
+          if (server.Start(true, null, 500) == false)
+              return 2;
 
-  public class ZombificationHttpHandler : System.Web.IHttpHandler
-  {
-    public bool IsReusable { get { return false; } }
+          var listener = (TestListener) vh.AppHost.Domain.CreateInstanceFromAndUnwrap(
+              GetType().Assembly.Location, typeof (TestListener).FullName);
+          listener.Start(9000);
 
-    public void ProcessRequest(System.Web.HttpContext context) {
-      context.Response.Write("OMG");
-      context.Response.End();
-    }
-  }
-
-
-  public class ZombificationRouteHandler  : System.Web.Routing.IRouteHandler
-  {
-      public System.Web.IHttpHandler GetHttpHandler(System.Web.Routing.RequestContext context) {
-        return new ZombificationHttpHandler();
+          bool doSleep;
+          while (true)
+          {
+              doSleep = false;
+              try
+              {
+                  Console.ReadLine();
+                  break;
+              }
+              catch (IOException)
+              {
+                  // This might happen on appdomain unload
+                  // until the previous threads are terminated.
+                  doSleep = true;
+              }
+              catch (ThreadAbortException)
+              {
+                  doSleep = true;
+              }
+              if (doSleep)
+              {
+                  Thread.Sleep(500);
+              }
+          }
+          server.Stop();
+          return 1337;
       }
   }
-
-  // Register a route with System.Web.Routing
-  // Implement an HTTP Handler which is returned by that route
-  // HttpHandler can ask for the current Application
-  // Look for the method 'GetZombieHandlers' on that type whatver it is
-  // Execute that mother fo'
-
-	public class TestListener : MarshalByRefObject
-	{
-		private HttpListener listener;
-		private Dictionary<string, object> handlers = new Dictionary<string, object>();
-		
-		public TestListener()
-		{
-			listener = new HttpListener();		
-		}
-		
-		public void RegisterHandler(Object handler) {
-			handlers.Add(handler.GetType().Name, handler);
-		}
-		
-		public void Start(int port) 
-		{
-			listener.Prefixes.Add (String.Format("http://localhost:{0}/", port));
-			listener.Start ();		
-			listener.BeginGetContext(onBeginGetContext, listener);
-      this.RegisterRouteOfDoom();
-		}
-
-    private void RegisterRouteOfDoom() {
-      System.Web.Routing.RouteTable.Routes.Add(new System.Web.Routing.Route(
-        "i/am/a/teapot",
-        new ZombificationRouteHandler()
-      ));
-    }
-
-
-		private void onBeginGetContext (IAsyncResult result)
-		{
-			var context = this.listener.EndGetContext(result);
-			var request = context.Request;
-			var response = context.Response;
-			try {
-		 		HandleRequest(request);				
-		    	response.StatusCode = 200;
-				using(var stream = response.OutputStream){}
-			} catch(Exception ex) {
-				response.StatusCode = 500;
-				using(var stream = response.OutputStream) {
-					using(var writer = new StreamWriter(stream)) {
-						writer.Write (ex.ToString());
-					}
-				}
-			}			
-			this.listener.BeginGetContext(onBeginGetContext, this.listener);
-		}
-		
-		private void HandleRequest(HttpListenerRequest request) {
-			var qs = request.QueryString;
-			var methodInfoString = qs.Get("method");
-			var data =  JObject.Parse(qs.Get("params"));
-			
-			var methodInfoComponents = methodInfoString.Split ('.');
-			var type = methodInfoComponents[0];
-			var methodName = methodInfoComponents[1];
-			var handler = handlers[type];
-			var method = handler.GetType().GetMethods()
-								.Where (x=> x.Name == methodName)
-								.Where(x => x.GetParameters().Length == data.Children().Count())
-								.FirstOrDefault();
-			
-			var args = new List<object>();
-
-			foreach(var par in method.GetParameters()) {
-				var val = data.GetValue(par.Name);
-				var obj = JsonConvert.DeserializeObject(val.ToString(), par.ParameterType);
-				args.Add (obj);
-			}
-			method.Invoke (handler, args.ToArray());
-		}
-	}
 }

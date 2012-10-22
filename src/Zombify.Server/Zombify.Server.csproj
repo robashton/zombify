@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -47,13 +47,16 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="XSPWebSource.cs"/>
-    <Compile Include="XSPApplicationHost.cs"/>
+    <Compile Include="TestListener.cs" />
+    <Compile Include="XSPWebSource.cs" />
+    <Compile Include="XSPApplicationHost.cs" />
     <Compile Include="XSPRequestBroker.cs" />
-    <Compile Include="XSPWorker.cs"/>
+    <Compile Include="XSPWorker.cs" />
     <Compile Include="XSPWorkerRequest.cs" />
     <Compile Include="SecurityConfiguration.cs" />
     <Compile Include="SslInformation.cs" />
+    <Compile Include="ZombificationHttpHandler.cs" />
+    <Compile Include="ZombificationRouteHandler.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
