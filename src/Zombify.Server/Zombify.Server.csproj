@@ -35,6 +35,9 @@
     <Reference Include="Mono.Security">
       <HintPath>_libs\Mono.Security.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>_libs\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Mono.WebServer2">
       <HintPath>_libs\Mono.WebServer2.dll</HintPath>
     </Reference>
