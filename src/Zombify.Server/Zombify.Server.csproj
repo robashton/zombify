@@ -9,6 +9,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Zombify.Server</RootNamespace>
     <AssemblyName>Zombify.Server</AssemblyName>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,19 +33,27 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Web" />
     <Reference Include="Mono.Security">
       <HintPath>_libs\Mono.Security.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>_libs\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.WebServer2">
-      <HintPath>_libs\Mono.WebServer2.dll</HintPath>
+    <Reference Include="Mono.WebServer">
+      <HintPath>_libs\Mono.WebServer.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="XSPWebSource.cs"/>
+    <Compile Include="XSPApplicationHost.cs"/>
+    <Compile Include="XSPRequestBroker.cs" />
+    <Compile Include="XSPWorker.cs"/>
+    <Compile Include="XSPWorkerRequest.cs" />
+    <Compile Include="SecurityConfiguration.cs" />
+    <Compile Include="SslInformation.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

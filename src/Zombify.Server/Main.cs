@@ -47,6 +47,7 @@ namespace Zombify.Server
       var port = Int32.Parse(System.Environment.GetEnvironmentVariable("PORT"));
       var dir = System.Environment.GetEnvironmentVariable("ROOT");
       var webSource = new XSPWebSource (IPAddress.Parse("0.0.0.0"), port, false);
+
 			ApplicationServer server = new ApplicationServer (webSource, dir);
       server.SingleApplication = true;
       server.AddApplicationsFromCommandLine ("/:.");
@@ -55,6 +56,7 @@ namespace Zombify.Server
 			server.AppHost = vh.AppHost;
 		  if (server.Start (true, null, 500) == false)
         return 2;
+
       var listener = (TestListener)vh.AppHost.Domain.CreateInstanceFromAndUnwrap(
           GetType().Assembly.Location,
           typeof(TestListener).FullName);
@@ -84,6 +86,24 @@ namespace Zombify.Server
     }
   }
 
+  public class ZombificationHttpHandler : System.Web.IHttpHandler
+  {
+    public bool IsReusable { get { return false; } }
+
+    public void ProcessRequest(System.Web.HttpContext context) {
+      context.Response.Write("OMG");
+      context.Response.End();
+    }
+  }
+
+
+  public class ZombificationRouteHandler  : System.Web.Routing.IRouteHandler
+  {
+      public System.Web.IHttpHandler GetHttpHandler(System.Web.Routing.RequestContext context) {
+        return new ZombificationHttpHandler();
+      }
+  }
+
   // Register a route with System.Web.Routing
   // Implement an HTTP Handler which is returned by that route
   // HttpHandler can ask for the current Application
@@ -106,14 +126,17 @@ namespace Zombify.Server
 		
 		public void Start(int port) 
 		{
-			listener.Start ();		
 			listener.Prefixes.Add (String.Format("http://localhost:{0}/", port));
+			listener.Start ();		
 			listener.BeginGetContext(onBeginGetContext, listener);
-      this.ScanForHandlers();
+      this.RegisterRouteOfDoom();
 		}
 
-    private void ScanForHandlers() {
-      AppDomain.Current.
+    private void RegisterRouteOfDoom() {
+      System.Web.Routing.RouteTable.Routes.Add(new System.Web.Routing.Route(
+        "i/am/a/teapot",
+        new ZombificationRouteHandler()
+      ));
     }
 
 

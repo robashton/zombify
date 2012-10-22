@@ -1,0 +1,24 @@
+2010-06-02  Marek Habersack  <mhabersack@novell.com>
+
+	* XSPWorkerRequest.cs: avoid double handle close when sending
+	response from a file in certain cases.
+
+2010-03-31  Marek Habersack  <mhabersack@novell.com>
+
+	* main.cs: wrapped --pidfile option body in try/catch block, as
+	the failure to create the PID file is not critical.
+
+2010-03-18  Marek Habersack  <mhabersack@novell.com>
+
+	* XSPWorker.cs: all the checks for whether socket is connected 
+	are performed in a safe manner.
+
+2010-03-01  Marek Habersack  <mhabersack@novell.com>
+
+	* main.cs: added some documentation on RealMain.
+	Added code to make sure single app mode is not used when running a
+	non-stop server.
+	In single app mode, when ThreadAbortException is thrown, make sure
+	to shutdown up all the accepted sockets, or we'll end up with
+	sockets with filled receive/send queues.
+
