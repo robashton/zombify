@@ -1,6 +1,7 @@
 var spawn = require('child_process').spawn
 var http = require('http')
 var querystring = require('querystring')
+var path = require('path')
 
 var Driver = function(dir, options) {
   this.dir = dir
@@ -12,8 +13,13 @@ var Driver = function(dir, options) {
 
 Driver.prototype = {
   start: function(cb) {
-    this.process = spawn('xsp2', [ '--port', this.options.port], {
+
+    this.process = spawn(path.join(process.env.ZOMBIFY_PATH,'/server/Zombify.Server.exe'), [], {
       cwd: this.dir,
+      env: {
+        PORT: this.options.port,
+        ROOT: this.dir
+      }
     })
     this.process.stdout.setEncoding('utf8')
     this.process.stdout.on('data', this.onStdOut.bind(this))
