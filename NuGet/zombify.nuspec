@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <id>Zombify</id>
+    <title>Zombify</title>
+    <version>0.0.1</version> 
+    <authors>Rob Ashton</authors> 
+    <owners>Rob Ashton</owners>
+    <summary>Easy and fast-running end-to-end test harness for ASP.NET MVC</summary>
+    <description>
+      A node.js and standalone mono-based web server powered test harness for ASP.NET MVC.
+      Write your tests in JavaScript or CoffeeScript and use the best of both worlds
+    </description> 
+    <projectUrl>https://github.com/robashton/zombify</projectUrl>
+    <licenseUrl>https://github.com/robashton/zombify/blob/master/LICENSE</licenseUrl>
+    <tags>Testing BDD Zombify Zombie ASP.NET MVC Coffeescript mocha harness</tags>
+    <language>en-US</language> 
+    <copyright>Rob Ashton 2012</copyright>
+  </metadata> 
+</package>
