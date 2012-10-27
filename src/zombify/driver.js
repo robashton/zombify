@@ -14,7 +14,7 @@ var Driver = function(dir, options) {
 Driver.prototype = {
   start: function(cb) {
 
-    this.process = spawn(path.join(process.env.ZOMBIFY_PATH,'/server/Zombify.Server.exe'), [], {
+    this.process = spawn(path.join(__dirname, '/server/Zombify.Server.exe'), [], {
       cwd: this.dir,
       env: {
         PORT: this.options.port,

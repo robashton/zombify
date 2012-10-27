@@ -1,11 +1,19 @@
 {
   "name": "zombify",
   "main": "./driver",
-  "version": "0.0.1",
-  "dependencies": {
-    "zombie": "",
-    "should": "",
-    "mocha-cakes": "",
-    "mocha" : ""
-  }
+  "version": "1.0.0",
+  "keywords": [
+    "c#",
+    "test",
+    "asp.net"
+  ],
+  "author": {
+    "name": "Rob Ashton",
+    "email": "robashton@codeofrob.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/robashton/zombify.git"
+  },
+  "readme": "Go to the githubs"
 }

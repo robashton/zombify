@@ -1,27 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<ItemGroup>
-		<NodeModule Include="..\src\node_modules\**\*.*"></NodeModule>
+    <NodeModule 
+      Include="..\src\node_modules\**\*.*"
+      Exclude="..\src\node_modules\zombie\man7\**\*.*;..\src\node_modules\zombie\doc\**\*.*;..\src\node_modules\zombie\docs\**\*.*;..\src\node_modules\zombie\node_modules\html5\data\**\*.*;..\src\node_modules\zombie\node_modules\html5\node_modules\bench\slowdumb\**\*.*;..\src\node_modules\**\test\**\*.*"
+      >
+    </NodeModule>
 		<ZombifyModule Include="..\src\zombify\**\*.*"></ZombifyModule>
 		<ZombifyServer Include="..\src\Zombify.Server\bin\Debug\*.dll"></ZombifyServer>
 		<ZombifyServer Include="..\src\Zombify.Server\bin\Debug\*.exe"></ZombifyServer>
 		<Drivers Include="..\src\*.*"></Drivers>
-    <Contnt Include="..\src\content\**\*.*"></Contnt>
+    <Content Include="..\src\content\**\*.*"></Content>
 	</ItemGroup>
 
+
 	<Target Name="Build">
+    <CallTarget Targets="CreateZombify"></CallTarget>
+    <CallTarget Targets="BuildProjects"></CallTarget>
+    <CallTarget Targets="CopyFiles"></CallTarget>
+    <CallTarget Targets="Package"></CallTarget>
+	</Target>
+
+  <Target Name="CreateZombify">
+    <Copy SkipUnchangedFiles="true" SourceFiles="@(ZombifyServer)"
+          DestinationFolder="..\src\zombify\server"/>
+  </Target>
+
+  <Target Name="BuildProjects">
+    <MSBuild Projects="..\src\Zombify.Server\Zombify.Server.sln" />
+  </Target>
+
+  <Target Name="CopyFiles">
 		<Copy SkipUnchangedFiles="true" SourceFiles="@(NodeModule)" 
 			  DestinationFolder="..\nuget\bin\node_modules\%(RecursiveDir)"></Copy>
 		<Copy SkipUnchangedFiles="true" SourceFiles="@(ZombifyModule)"
 			  DestinationFolder="..\nuget\bin\node_modules\zombify\%(RecursiveDir)"></Copy>
-	  <Copy SkipUnchangedFiles="true" SourceFiles="@(ZombifyServer)"
-			  DestinationFolder="..\nuget\bin\server"></Copy>
 		<Copy SkipUnchangedFiles="true" SourceFiles="@(Drivers)"
 			  DestinationFolder="..\nuget\bin\"></Copy>
     <Copy SkipUnchangedFiles="true" SourceFiles="@(Content)"
          DestinationFolder="..\nuget\content\%(RecursiveDir)"></Copy>
-    <CallTarget Targets="Package"></CallTarget>
-	</Target>
+   </Target>
 
   <Target Name="Package">
     <Exec Command=".\nuget.exe pack ..\nuget\zombify.nuspec" ></Exec>
