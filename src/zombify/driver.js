@@ -55,7 +55,7 @@ Driver.prototype = {
   },
   waitForConnection: function(cb) {
     var self = this
-    http.get(this.baseHref, function(res) {
+    http.get(this.baseHref + '/i/am/a/teapot', function(res) {
       cb()
     }).on('error', function() {
       self.waitForConnection(cb)
