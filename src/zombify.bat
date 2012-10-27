@@ -1,12 +1,6 @@
-SET ZOMBIFY_PATH=%CD%\packages\Zombify
-SET NODE_PATH=%ZOMBIFY_PATH%\node_modules
-SET OLDPATH = %CD%
+ECHO Set NODE_PATH to %NODE_PATH%
 
-ECHO Set node path to %NODE_PATH%
+ECHO Running tests with mocha
+PUSHD "C:\Users\Rob Ashton\Documents\GitHub\zombify2\Hotelier\Hotelier.Test" & "%ZOMBIFY_PATH%\node_modules\.bin\mocha.cmd" & POPD
 
-CD "C:\Users\Rob Ashton\Documents\GitHub\zombify\Hotelier\Hotelier.Test"
-
-ECHO Running tests
-"%ZOMBIFY_PATH%\node_modules\.bin\mocha.cmd"
-
-CD OLDPATH
+ECHO Finished running tests

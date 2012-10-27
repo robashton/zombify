@@ -6,19 +6,20 @@ var path = require('path')
 var Driver = function(dir, options) {
   this.dir = dir
   this.options = options || {}
-  this.options.port = this.options.port || 8081
+  this.options.port = this.options.port || parseInt(Math.random() * 62000, 10) + 2000
+  this.options.ipcport = this.options.ipcport || parseInt(Math.random() * 62000, 10) + 2000
   this.process = null
   this.baseHref = 'http://localhost:' + this.options.port
 }
 
 Driver.prototype = {
   start: function(cb) {
-
     this.process = spawn(path.join(__dirname, '/server/Zombify.Server.exe'), [], {
       cwd: this.dir,
       env: {
         PORT: this.options.port,
-        ROOT: this.dir
+        ROOT: this.dir,
+        IPCPORT: this.options.ipcport
       }
     })
     this.process.stdout.setEncoding('utf8')
@@ -35,7 +36,7 @@ Driver.prototype = {
     })
     var req = http.request({
       host: 'localhost',
-      port: 9000,
+      port: this.options.ipcport,
       method: 'GET',
       path: '/?' + qs
     }, function(res) {
@@ -64,16 +65,15 @@ Driver.prototype = {
 //    console.log(data)
   },
   onStdErr: function(data) {
- //   console.log(data)
+    console.log(data)
   },
   onExit: function(code) {
-  //  console.log(code)
+    console.log(code)
   },
   stop: function(cb) {
     this.process.kill()
     cb()
   }
 }
-
 
 module.exports = Driver

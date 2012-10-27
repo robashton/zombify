@@ -40,6 +40,7 @@ namespace Zombify.Server
   {
       private string dir;
       private int port;
+      private int ipcport;
 
       public void CopyBinariesToBin()
       {
@@ -58,6 +59,7 @@ namespace Zombify.Server
       public int Run()
       {
           port = Int32.Parse(System.Environment.GetEnvironmentVariable("PORT"));
+          ipcport= Int32.Parse(System.Environment.GetEnvironmentVariable("IPCPORT"));
           dir = System.Environment.GetEnvironmentVariable("ROOT");
           CopyBinariesToBin();
           var webSource = new XSPWebSource(IPAddress.Parse("0.0.0.0"), port, false);
@@ -73,7 +75,7 @@ namespace Zombify.Server
 
           var listener = (TestListener) vh.AppHost.Domain.CreateInstanceFromAndUnwrap(
               GetType().Assembly.Location, typeof (TestListener).FullName);
-          listener.Start(9000);
+          listener.Start(ipcport);
 
           bool doSleep;
           while (true)

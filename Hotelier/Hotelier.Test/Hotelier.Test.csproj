@@ -37,14 +37,15 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <None Include="proper\client.coffee" />
-    <None Include="proper\system.coffee" />
-    <None Include="proper\viewing_hotel_list_with_booked_room.coffee" />
+    <None Include="test\mocha.opts" />
+    <None Include="test\proper\client.coffee" />
+    <None Include="test\proper\system.coffee" />
+    <None Include="test\proper\viewing_hotel_list_with_booked_room.coffee" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="rawjs\listing_the_hotel_rooms.js" />
-    <Content Include="rawjs\loading_the_home_page.js" />
-    <Content Include="rawjs\viewing_a_hotel_room.js" />
+    <Content Include="test\rawjs\listing_the_hotel_rooms.js" />
+    <Content Include="test\rawjs\loading_the_home_page.js" />
+    <Content Include="test\rawjs\viewing_a_hotel_room.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
