@@ -1,8 +1,6 @@
 ﻿--require should
---require mocha-cakes
 --reporter spec
 --recursive
 --timeout 10000
 --slow 5000
 --compilers coffee:coffee-script
-

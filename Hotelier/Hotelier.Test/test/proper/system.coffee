@@ -1,9 +1,9 @@
-Driver = require '../driver'
+Driver = require 'zombify'
 Client = require './client'
 
 class System
   constructor: ->
-    @driver = new Driver '../Hotelier/Hotelier'
+    @driver = new Driver '../Hotelier'
 
   start: (done) =>
     @driver.start done
