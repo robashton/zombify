@@ -8,6 +8,7 @@ var Driver = function(dir, options) {
   this.options = options || {}
   this.options.port = this.options.port || parseInt(Math.random() * 62000, 10) + 2000
   this.options.ipcport = this.options.ipcport || parseInt(Math.random() * 62000, 10) + 2000
+  this.options.debug = this.options.debug || false
   this.process = null
   this.baseHref = 'http://localhost:' + this.options.port
 }
@@ -47,7 +48,6 @@ Driver.prototype = {
         console.error(data)
       })
     })
-
     req.on('error', function(err) {
       console.error(err)
     })
@@ -62,13 +62,16 @@ Driver.prototype = {
     })
   },
   onStdOut: function(data) {
-//    console.log(data)
+    if(this.options.debug)          
+      console.log(data)
   },
   onStdErr: function(data) {
-    console.log(data)
+    if(this.options.debug)          
+      console.log(data)
   },
   onExit: function(code) {
-    console.log(code)
+    if(this.options.debug)          
+      console.log(code)
   },
   stop: function(cb) {
     this.process.kill()
