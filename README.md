@@ -100,6 +100,9 @@ Zombie:
     # here: http://zombie.labnotes.org
 
     Browser = require 'zombie'
+    client = new Browser()
+    client.visit 'http://google.com', ->
+      console.log('Imma press your buttons now')
 ```
 
 Mocha:
