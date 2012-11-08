@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Remoting;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -69,11 +70,18 @@ namespace Zombify.Server
             var method = handler.GetType().GetMethods()
                 .Where (x=> x.Name == methodName).FirstOrDefault(x => x.GetParameters().Length == data.Children().Count());
 			
+            if(method == null)
+              Console.WriteLine("Cannot find method called {0} with parameter count {1}", methodName, data.Children().Count());
+
             var args = new List<object>();
+            
+            var deserializeMethod = typeof(JToken).GetMethods().Where(x=> x.Name == "ToObject" && x.GetParameters().Length == 0).Single();
 
             foreach(var par in method.GetParameters()) {
-                var val = data.GetValue(par.Name);
-                var obj = JsonConvert.DeserializeObject(val.ToString(), par.ParameterType);
+                var val = data[par.Name];
+                Console.WriteLine("Matching parameter {0} to value {1}, using type {2}", par.Name, val, par.ParameterType);
+                var deserializer = deserializeMethod.MakeGenericMethod(new [] { par.ParameterType});
+                var obj = deserializer.Invoke(val, new Object[] {});
                 args.Add (obj);
             }
             method.Invoke (handler, args.ToArray());

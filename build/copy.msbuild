@@ -15,12 +15,12 @@
 
 	<Target Name="Build">
     <CallTarget Targets="CreateZombify"></CallTarget>
-    <CallTarget Targets="BuildProjects"></CallTarget>
     <CallTarget Targets="CopyFiles"></CallTarget>
     <CallTarget Targets="Package"></CallTarget>
 	</Target>
 
   <Target Name="CreateZombify">
+    <CallTarget Targets="BuildProjects"></CallTarget>
     <Copy SkipUnchangedFiles="true" SourceFiles="@(ZombifyServer)"
           DestinationFolder="..\src\zombify\server"/>
   </Target>
