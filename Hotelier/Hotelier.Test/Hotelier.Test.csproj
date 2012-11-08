@@ -37,7 +37,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="test\mocha.opts" />
     <None Include="test\proper\client.coffee" />
     <None Include="test\proper\system.coffee" />

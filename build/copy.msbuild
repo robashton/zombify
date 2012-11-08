@@ -9,7 +9,6 @@
 		<ZombifyModule Include="..\src\zombify\**\*.*"></ZombifyModule>
 		<ZombifyServer Include="..\src\Zombify.Server\bin\Debug\*.dll"></ZombifyServer>
 		<ZombifyServer Include="..\src\Zombify.Server\bin\Debug\*.exe"></ZombifyServer>
-		<Drivers Include="..\src\*.*"></Drivers>
     <Content Include="..\src\content\**\*.*"></Content>
 	</ItemGroup>
 
@@ -35,8 +34,10 @@
 			  DestinationFolder="..\nuget\bin\node_modules\%(RecursiveDir)"></Copy>
 		<Copy SkipUnchangedFiles="true" SourceFiles="@(ZombifyModule)"
 			  DestinationFolder="..\nuget\bin\node_modules\zombify\%(RecursiveDir)"></Copy>
-		<Copy SkipUnchangedFiles="true" SourceFiles="@(Drivers)"
+		<Copy SkipUnchangedFiles="true" SourceFiles="..\src\node.exe"
 			  DestinationFolder="..\nuget\bin\"></Copy>
+      <Copy SkipUnchangedFiles="true" SourceFiles="..\src\zombify.bat"
+        DestinationFolder="..\nuget\tools\"></Copy>
     <Copy SkipUnchangedFiles="true" SourceFiles="@(Content)"
          DestinationFolder="..\nuget\content\%(RecursiveDir)"></Copy>
    </Target>

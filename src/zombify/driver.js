@@ -20,7 +20,8 @@ Driver.prototype = {
       env: {
         PORT: this.options.port,
         ROOT: this.dir,
-        IPCPORT: this.options.ipcport
+        IPCPORT: this.options.ipcport,
+        TEST: true
       }
     })
     this.process.stdout.setEncoding('utf8')

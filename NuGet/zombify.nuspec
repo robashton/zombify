@@ -3,7 +3,7 @@
   <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <id>Zombify</id>
     <title>Zombify</title>
-    <version>0.0.3</version> 
+    <version>0.0.4</version> 
     <authors>Rob Ashton</authors> 
     <owners>Rob Ashton</owners>
     <summary>Easy and fast-running end-to-end test harness for ASP.NET MVC</summary>
@@ -20,5 +20,6 @@
   <files>
     <file src="bin\**\*" target="bin" />
     <file src="content\**\*" target="content" />
+    <file src="tools\**\*" target="tools" />
   </files>
 </package>
