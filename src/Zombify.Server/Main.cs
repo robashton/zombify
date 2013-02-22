@@ -49,9 +49,7 @@ namespace Zombify.Server
           try
           {
               File.Copy(Path.Combine(path, "Zombify.Server.exe"), Path.Combine(destpath, "Zombify.Server.exe"), true);
-              File.Copy(Path.Combine(path, "Mono.WebServer.dll"), Path.Combine(destpath, "Mono.WebServer.exe"), true);
-              File.Copy(Path.Combine(path, "Mono.Security.dll"), Path.Combine(destpath, "Mono.Security.dll"), true);
-              File.Copy(Path.Combine(path, "Newtonsoft.Json.dll"), Path.Combine(destpath, "Newtonsoft.Json.dll"), true); } catch (Exception ex)
+          } catch (Exception ex)
           {
               Console.WriteLine(ex.ToString());
           }
