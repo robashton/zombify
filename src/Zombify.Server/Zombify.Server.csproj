@@ -8,7 +8,7 @@
     <ProjectGuid>{806B71C2-9F6E-42D7-82FD-39CFFECF8B0F}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Zombify.Server</RootNamespace>
-    <AssemblyName>Zombify.Server</AssemblyName>
+    <AssemblyName>Unmerged.Zombify.Server</AssemblyName>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -59,4 +59,9 @@
     <Compile Include="ZombificationRouteHandler.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>$(SolutionDir)..\..\build\ilmerge\ilmerge.exe /targetplatform:v4 /target:winexe /out:$(TargetDir)Zombify.Server.exe $(TargetDir)$(TargetFileName) $(TargetDir)Mono.Security.dll $(TargetDir)Mono.WebServer.dll $(TargetDir)Newtonsoft.Json.dll
+DEL $(TargetDir)$(TargetFileName) $(TargetDir)Mono.Security.dll $(TargetDir)Mono.WebServer.dll $(TargetDir)Newtonsoft.Json.dll
+</PostBuildEvent>
+  </PropertyGroup>
 </Project>

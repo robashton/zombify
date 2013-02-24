@@ -7,8 +7,7 @@
       >
     </NodeModule>
 		<ZombifyModule Include="..\src\zombify\**\*.*"></ZombifyModule>
-		<ZombifyServer Include="..\src\Zombify.Server\bin\Debug\*.dll"></ZombifyServer>
-		<ZombifyServer Include="..\src\Zombify.Server\bin\Debug\*.exe"></ZombifyServer>
+		<ZombifyServer Include="..\src\Zombify.Server\bin\Debug\Zombify.Server.exe"></ZombifyServer>
     <Content Include="..\src\content\**\*.*"></Content>
 	</ItemGroup>
 
