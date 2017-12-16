@@ -108,7 +108,7 @@ Zombie:
 Mocha:
 ```coffee
     # This is the test runner being used, meaning you can do things like
-    # Find the documentation for that here: https://visionmedia.github.com/mocha
+    # Find the documentation for that here: https://mochajs.org/
 
     describe "sitting down", ->
       it "sits down", ->
